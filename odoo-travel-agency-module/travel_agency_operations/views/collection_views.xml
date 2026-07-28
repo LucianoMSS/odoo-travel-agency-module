@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View for Collection Ledger -->
+    <record id="view_travel_agency_collection_tree" model="ir.ui.view">
+        <field name="name">travel.agency.collection.list</field>
+        <field name="model">travel.agency.collection</field>
+        <field name="arch" type="xml">
+            <list string="Payment Collection Report" editable="bottom" multi_edit="1">
+                <field name="date"/>
+                <field name="payment_method"/>
+                <field name="bank_id" optional="show"/>
+                <field name="dk"/>
+                <field name="partner_id"/>
+                <field name="viaje_id" optional="show"/>
+                <field name="rc_number"/>
+                <field name="document_ref"/>
+                <field name="reference" optional="hide"/>
+                <field name="amount_untaxed_0" sum="Total 0%"/>
+                <field name="amount_traspaso" sum="Total Transfers" optional="hide"/>
+                <field name="amount_untaxed_16" sum="Total 16%"/>
+                <field name="amount_tax_16" sum="Total VAT" readonly="1"/>
+                <field name="amount_cobranza" sum="Total Collection" readonly="1"/>
+                <field name="bank_deposit" sum="Total Deposit"/>
+                <field name="bank_movement_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_travel_agency_collection_form" model="ir.ui.view">
+        <field name="name">travel.agency.collection.form</field>
+        <field name="model">travel.agency.collection</field>
+        <field name="arch" type="xml">
+            <form string="Payment Collection Entry">
+                <header>
+                    <button name="action_generate_payment" string="Generate Odoo Payment" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="General Information">
+                            <field name="date"/>
+                            <field name="payment_method"/>
+                            <field name="bank_id"/>
+                            <field name="bank_movement_id"/>
+                        </group>
+                        <group string="References">
+                            <field name="dk"/>
+                            <field name="partner_id"/>
+                            <field name="viaje_id"/>
+                            <field name="rc_number"/>
+                            <field name="document_ref"/>
+                            <field name="reference"/>
+                        </group>
+                    </group>
+                    <group string="Amounts &amp; Taxes">
+                        <group>
+                            <field name="amount_untaxed_0"/>
+                            <field name="amount_traspaso"/>
+                            <field name="amount_untaxed_16"/>
+                        </group>
+                        <group>
+                            <field name="amount_tax_16"/>
+                            <field name="amount_cobranza" class="oe_subtotal_footer_separator"/>
+                            <field name="bank_deposit" class="oe_highlight"/>
+                        </group>
+                    </group>
+                    <group string="Notes">
+                        <field name="notes" placeholder="Additional observations..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_travel_agency_collection" model="ir.actions.act_window">
+        <field name="name">Collection Report</field>
+        <field name="res_model">travel.agency.collection</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the first payment collection record.
+            </p>
+            <p>
+                This module links bank deposits with customers, travel trips, tax breakdowns, and automated invoice payments.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_travel_agency_collection_root"
+              name="Collections"
+              parent="menu_travel_agency_root"
+              sequence="20"/>
+
+    <menuitem id="menu_travel_agency_collection_list"
+              name="Collection Ledger"
+              parent="menu_travel_agency_collection_root"
+              action="action_travel_agency_collection"
+              sequence="10"/>
+</odoo>
